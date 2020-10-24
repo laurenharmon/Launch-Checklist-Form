@@ -10,7 +10,7 @@ window.addEventListener("load", function() {
       let launchChange = document.getElementById("launchStatus");
       let faultyList = document.getElementById("faultyItems");
 
-
+//Section  1 Requirements
       if (pilot.value === "" || coPilot.value === "" || fuelLevel.value === "" || mass.value === "") {
          window.alert("All fields required!");
          event.preventDefault();
@@ -26,10 +26,12 @@ window.addEventListener("load", function() {
          event.preventDefault();
       }
 
+// Section 2 Requirements
       if (pilot.value && coPilot.value) {
          document.getElementById("pilotStatus").innerHTML = `Pilot ${pilot.value} is ready for launch.`;
          document.getElementById("copilotStatus").innerHTML = `Co-pilot ${coPilot.value} is ready for launch.`;
       }
+
 
       if (fuelLevel.value < 10000) {
          faultyList.style.visibility = "visible";
@@ -45,6 +47,24 @@ window.addEventListener("load", function() {
          launchChange.innerHTML = `Shuttle is Ready for Launch!`;
          launchChange.style.color = "green";
       }
+
+      fetch("https://handlers.education.launchcode.org/static/planets.json").then(function(response) {
+         response.json().then(function(json) {
+            console.log(json);
+            let planetContainer = document.getElementById("missionTarget");
+            planetContainer.innerHTML += `
+            <h2>Mission Destination</h2>
+               <ol>
+                  <li>Name: ${json[1].name}</li>
+                  <li>Diameter: ${json[1].diameter}</li>
+                  <li>Star: ${json[1].star}</li>
+                  <li>Distance from Earth: ${json[1].distance}</li>
+                  <li>Number of Moons: ${json[1].moons}</li>
+               </ol>
+            <img src="${json[1].image}"></img>
+            `;
+         });
+      });
    });
 
 });
